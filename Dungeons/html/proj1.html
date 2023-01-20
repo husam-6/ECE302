@@ -1,0 +1,446 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>proj1</title><meta name="generator" content="MATLAB 9.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-01-20"><meta name="DC.source" content="proj1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Husam Almanakly</a></li><li><a href="#2">1a - Probability of rolling 3, 6 sided die and getting a sum score of 18</a></li><li><a href="#3">1b - Prob of generating 3 scores, keeping highest, scoring 18</a></li><li><a href="#4">1c - Probability of generating all 18s using Fun Method</a></li><li><a href="#5">1d - Probability of using Fun Method and getting all 9s</a></li><li><a href="#6">2a - Average number of Troll Hitpoints</a></li><li><a href="#7">2b - pmf for amount of damage fireball does, and amount of hitpoints trolls have</a></li><li><a href="#8">2c - 6 trolls, 1 Fireball</a></li><li><a href="#9">2d - Kills all but 1</a></li><li><a href="#10">2e - 2 weapons, 2d6 and 1d4</a></li><li><a href="#11">Functions</a></li></ul></div><h2 id="1">Husam Almanakly</h2><p>ECE302 Project 1 - Dungeons and Dragons</p><pre class="codeinput"><span class="comment">% This project simulates questions based on the famous board game Dungeons</span>
+<span class="comment">% and Dragons. Given a scenario in the game, this script provides both</span>
+<span class="comment">% figures and simple estimated probabilities with a large enough number</span>
+<span class="comment">% of trials to assume convergence.</span>
+
+clear
+clc
+close <span class="string">all</span>
+</pre><h2 id="2">1a - Probability of rolling 3, 6 sided die and getting a sum score of 18</h2><p>Each die must roll a 6</p><pre class="codeinput"><span class="comment">% Only one possible combination</span>
+prob = 1 / (6 ^ 3);
+
+
+<span class="comment">% Simulation</span>
+n = 1000000;
+rolls = roll(6, 3, n);
+max_ability = length(rolls(rolls == 18));
+est_prob = max_ability / n;
+
+disp(<span class="string">"True Probability of rolling a score of 18: "</span> + prob)
+disp(<span class="string">"Estimated Probability of rolling a score of 18 (N = "</span> + n + <span class="string">"): "</span> + est_prob)
+</pre><h2 id="3">1b - Prob of generating 3 scores, keeping highest, scoring 18</h2><pre class="codeinput"><span class="comment">% Generate scores using Fun Method</span>
+max_three = fun_method(6, 3, n);
+
+max_three_count = sum(max_three == 18);
+est_prob_three = max_three_count / n;
+
+<span class="comment">% True Prob = 3 * prob of rolling 18</span>
+disp(<span class="string">"True Probability: "</span> + prob * 3)
+disp(<span class="string">"Estimated Probability of rolling three times and getting 18: "</span> + est_prob_three)
+</pre><pre class="codeoutput">True Probability: 0.013889
+Estimated Probability of rolling three times and getting 18: 0.013824
+</pre><h2 id="4">1c - Probability of generating all 18s using Fun Method</h2><pre class="codeinput"><span class="comment">% 6 Abilities, 6 Fun Method Rolls</span>
+
+abilities = [fun_method(6, 3, n); fun_method(6, 3, n); fun_method(6, 3, n);
+             fun_method(6, 3, n); fun_method(6, 3, n); fun_method(6, 3, n)];
+
+<span class="comment">% Count number of times all abilities are 18</span>
+perfect_occurences = sum(sum(abilities) == (18 * 6));
+estimated_prob = perfect_occurences / n;
+
+disp(<span class="string">"Estimated Probability of a perfect character: "</span> + estimated_prob)
+</pre><pre class="codeoutput">Estimated Probability of a perfect character: 0
+</pre><h2 id="5">1d - Probability of using Fun Method and getting all 9s</h2><pre class="codeinput"><span class="comment">% Count number of average occurences</span>
+tmp = sum(abilities == 9) == 6;
+average_occurences = sum(tmp);
+estimated_avg_prob = average_occurences / n;
+
+disp(<span class="string">"Estimated Probability of an average character: "</span> + estimated_avg_prob)
+</pre><pre class="codeoutput">Estimated Probability of an average character: 0
+</pre><h2 id="6">2a - Average number of Troll Hitpoints</h2><pre class="codeinput"><span class="comment">% 1d4 =&gt; Average hit points = 2.5</span>
+<span class="comment">% Fireball - 2d2 =&gt; Average damage = 3</span>
+
+<span class="comment">% Generate Trolls, find average hitpoints</span>
+trolls = randi(4, 1, n);
+avg_troll = mean(trolls);
+
+<span class="comment">% Average fireball damage</span>
+fireball = roll(2, 2, n);
+fire_ball_avg = mean(fireball);
+
+<span class="comment">% Prob Fireball does &gt; 3 points of damage</span>
+bound = sum(fireball &gt; 3);
+prob_bound = bound / n;
+disp(<span class="string">"Average number of hit points of a troll: "</span> + avg_troll)
+disp(<span class="string">"Average damage of a fireball: "</span> + fire_ball_avg)
+disp(<span class="string">"Probability that Fireball does &gt; 3 points of damage: "</span> + prob_bound)
+</pre><pre class="codeoutput">Average number of hit points of a troll: 2.5015
+Average damage of a fireball: 3.0004
+Probability that Fireball does &gt; 3 points of damage: 0.25038
+</pre><h2 id="7">2b - pmf for amount of damage fireball does, and amount of hitpoints trolls have</h2><pre class="codeinput"><span class="comment">% Troll hitpoints pmf</span>
+troll_pmf = histcounts(trolls,[unique(trolls) Inf],<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+
+<span class="comment">% FIREBALL pmf</span>
+pmf = histcounts(fireball,[unique(fireball) Inf],<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+figure
+stem(pmf)
+title(<span class="string">"pmf of FIREBALL"</span>)
+xlabel(<span class="string">"Damage points"</span>)
+ylabel(<span class="string">"Frequency"</span>)
+xticks([1 2 3])
+xticklabels([2 3 4])
+xlim([0 4])
+
+<span class="comment">% Troll hitpoint pmf</span>
+figure
+stem(troll_pmf)
+title(<span class="string">"pmf of Troll Hitpoints"</span>)
+xlabel(<span class="string">"Hitpoints"</span>)
+ylabel(<span class="string">"Frequency"</span>)
+xlim([0 5])
+</pre><img vspace="5" hspace="5" src="proj1_01.png" alt=""> <img vspace="5" hspace="5" src="proj1_02.png" alt=""> <h2 id="8">2c - 6 trolls, 1 Fireball</h2><pre class="codeinput"><span class="comment">% Generate health points for 6 trolls (1d4 roll each troll, 6 trolls)</span>
+group_trolls = randi(4, 6, n);
+
+dead_trolls = group_trolls &lt;= fireball;
+
+<span class="comment">% Count number of times all trolls were killed</span>
+all_dead = sum(sum(dead_trolls) == 6);
+
+est_all_prob = all_dead / n;
+disp(<span class="string">"Probability all trolls die from a Fireball: "</span> + est_all_prob)
+</pre><pre class="codeoutput">Probability all trolls die from a Fireball: 0.34348
+</pre><h2 id="9">2d - Kills all but 1</h2><pre class="codeinput"><span class="comment">% Find all times only one troll survived</span>
+all_but_one = sum(dead_trolls) == 5;
+tmp = group_trolls(:, all_but_one) - fireball(all_but_one);
+
+<span class="comment">% Keep only positive health values (ie lone surviving troll)</span>
+remaining_health = transpose(tmp(tmp &gt; 0));
+
+<span class="comment">% Plot histogram of remaining Troll Healths</span>
+health_hist = histcounts(remaining_health,[unique(remaining_health) Inf],<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+figure
+stem(health_hist)
+title(<span class="string">"Surviving Troll Health"</span>)
+xlabel(<span class="string">"Health"</span>)
+ylabel(<span class="string">"Frequency"</span>)
+xlim([0 3])
+
+avg_health = mean(remaining_health);
+disp(<span class="string">"Average remaining health: "</span> + avg_health)
+</pre><pre class="codeoutput">Average remaining health: 1.0578
+</pre><img vspace="5" hspace="5" src="proj1_03.png" alt=""> <h2 id="10">2e - 2 weapons, 2d6 and 1d4</h2><pre class="codeinput"><span class="comment">% Simulate rolling the 20 sided dice first to see if you can attack</span>
+first_attack = randi(20, 1, n);
+num_attacks = sum(first_attack &gt;= 11);
+
+<span class="comment">% Generate the attacks using the proper number determined from the 20 sided</span>
+<span class="comment">% dice</span>
+sword = roll(6, 2, num_attacks);
+
+<span class="comment">% Attack with the hammer, first rolling the 20 sided dice</span>
+second_attack = randi(20, 1, num_attacks);
+num_second = sum(second_attack &gt;= 11);
+hammer = randi(4, 1, num_second);
+
+<span class="comment">% Add additional damage for second attack (if applicable)</span>
+t = second_attack &gt;= 11;
+sword(t) = sword(t) + hammer;
+
+
+<span class="comment">% Plot histogram of damage done</span>
+damage = histcounts(sword,[unique(sword) Inf],<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+figure
+stem(damage)
+title(<span class="string">"Total Damage Done"</span>)
+xlabel(<span class="string">"Damage"</span>)
+ylabel(<span class="string">"Frequency"</span>)
+<span class="comment">% xticks()</span>
+<span class="comment">% xticklabels(unique(sword))</span>
+
+avg_damage = mean(damage);
+disp(<span class="string">"Average damage done to Keene: "</span> + avg_damage)
+</pre><h2 id="11">Functions</h2><pre class="codeinput"><span class="comment">% Function to roll a dice and get total score</span>
+<span class="keyword">function</span> v = roll(num_sides, num_dice, num_trials)
+    v = sum(randi(num_sides, num_dice, num_trials));
+<span class="keyword">end</span>
+
+<span class="comment">% Function to roll a dice using the 'Fun Method'</span>
+<span class="keyword">function</span> v = fun_method(num_sides, num_dice, num_trials)
+    roll1 = roll(num_sides, num_dice, num_trials);
+    roll2 = roll(num_sides, num_dice, num_trials);
+    roll3 = roll(num_sides, num_dice, num_trials);
+    v = [roll1; roll2; roll3];
+    v = max(v);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">True Probability of rolling a score of 18: 0.0046296
+Estimated Probability of rolling a score of 18 (N = 1000000): 0.004689
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Husam Almanakly 
+% ECE302 Project 1 - Dungeons and Dragons
+
+
+% This project simulates questions based on the famous board game Dungeons
+% and Dragons. Given a scenario in the game, this script provides both
+% figures and simple estimated probabilities with a large enough number 
+% of trials to assume convergence. 
+
+clear
+clc
+close all
+    
+
+%% 1a - Probability of rolling 3, 6 sided die and getting a sum score of 18
+% Each die must roll a 6
+
+% Only one possible combination 
+prob = 1 / (6 ^ 3);
+
+
+% Simulation
+n = 1000000;
+rolls = roll(6, 3, n);
+max_ability = length(rolls(rolls == 18));
+est_prob = max_ability / n;
+
+disp("True Probability of rolling a score of 18: " + prob)
+disp("Estimated Probability of rolling a score of 18 (N = " + n + "): " + est_prob)
+
+
+
+%% 1b - Prob of generating 3 scores, keeping highest, scoring 18
+
+% Generate scores using Fun Method
+max_three = fun_method(6, 3, n);
+
+max_three_count = sum(max_three == 18);
+est_prob_three = max_three_count / n;
+
+% True Prob = 3 * prob of rolling 18
+disp("True Probability: " + prob * 3)
+disp("Estimated Probability of rolling three times and getting 18: " + est_prob_three)
+
+
+
+%% 1c - Probability of generating all 18s using Fun Method
+
+% 6 Abilities, 6 Fun Method Rolls
+
+abilities = [fun_method(6, 3, n); fun_method(6, 3, n); fun_method(6, 3, n); 
+             fun_method(6, 3, n); fun_method(6, 3, n); fun_method(6, 3, n)];
+
+% Count number of times all abilities are 18
+perfect_occurences = sum(sum(abilities) == (18 * 6));
+estimated_prob = perfect_occurences / n;
+
+disp("Estimated Probability of a perfect character: " + estimated_prob)
+
+
+%% 1d - Probability of using Fun Method and getting all 9s
+
+% Count number of average occurences
+tmp = sum(abilities == 9) == 6;
+average_occurences = sum(tmp);
+estimated_avg_prob = average_occurences / n; 
+
+disp("Estimated Probability of an average character: " + estimated_avg_prob)
+
+
+
+%% 2a - Average number of Troll Hitpoints
+
+% 1d4 => Average hit points = 2.5
+% Fireball - 2d2 => Average damage = 3
+
+% Generate Trolls, find average hitpoints
+trolls = randi(4, 1, n);
+avg_troll = mean(trolls);
+
+% Average fireball damage
+fireball = roll(2, 2, n);
+fire_ball_avg = mean(fireball);
+
+% Prob Fireball does > 3 points of damage
+bound = sum(fireball > 3);
+prob_bound = bound / n;
+disp("Average number of hit points of a troll: " + avg_troll)
+disp("Average damage of a fireball: " + fire_ball_avg)
+disp("Probability that Fireball does > 3 points of damage: " + prob_bound)
+
+
+%% 2b - pmf for amount of damage fireball does, and amount of hitpoints trolls have
+
+% Troll hitpoints pmf
+troll_pmf = histcounts(trolls,[unique(trolls) Inf],'Normalization','probability');
+
+% FIREBALL pmf
+pmf = histcounts(fireball,[unique(fireball) Inf],'Normalization','probability');
+figure
+stem(pmf)
+title("pmf of FIREBALL")
+xlabel("Damage points")
+ylabel("Frequency")
+xticks([1 2 3])
+xticklabels([2 3 4])
+xlim([0 4])
+
+% Troll hitpoint pmf
+figure
+stem(troll_pmf)
+title("pmf of Troll Hitpoints")
+xlabel("Hitpoints")
+ylabel("Frequency")
+xlim([0 5])
+
+
+
+%% 2c - 6 trolls, 1 Fireball
+
+% Generate health points for 6 trolls (1d4 roll each troll, 6 trolls)
+group_trolls = randi(4, 6, n);
+
+dead_trolls = group_trolls <= fireball;
+
+% Count number of times all trolls were killed
+all_dead = sum(sum(dead_trolls) == 6);
+
+est_all_prob = all_dead / n;
+disp("Probability all trolls die from a Fireball: " + est_all_prob)
+
+
+
+%% 2d - Kills all but 1
+
+% Find all times only one troll survived
+all_but_one = sum(dead_trolls) == 5;
+tmp = group_trolls(:, all_but_one) - fireball(all_but_one);
+
+% Keep only positive health values (ie lone surviving troll)
+remaining_health = transpose(tmp(tmp > 0));
+
+% Plot histogram of remaining Troll Healths
+health_hist = histcounts(remaining_health,[unique(remaining_health) Inf],'Normalization','probability');
+figure
+stem(health_hist)
+title("Surviving Troll Health")
+xlabel("Health")
+ylabel("Frequency")
+xlim([0 3])
+
+avg_health = mean(remaining_health);
+disp("Average remaining health: " + avg_health)
+
+
+
+
+%% 2e - 2 weapons, 2d6 and 1d4
+
+% Simulate rolling the 20 sided dice first to see if you can attack
+first_attack = randi(20, 1, n);
+num_attacks = sum(first_attack >= 11);
+
+% Generate the attacks using the proper number determined from the 20 sided
+% dice
+sword = roll(6, 2, num_attacks);
+
+% Attack with the hammer, first rolling the 20 sided dice
+second_attack = randi(20, 1, num_attacks);
+num_second = sum(second_attack >= 11);
+hammer = randi(4, 1, num_second);
+
+% Add additional damage for second attack (if applicable)
+t = second_attack >= 11;
+sword(t) = sword(t) + hammer;
+
+
+% Plot histogram of damage done
+damage = histcounts(sword,[unique(sword) Inf],'Normalization','probability');
+figure
+stem(damage)
+title("Total Damage Done")
+xlabel("Damage")
+ylabel("Frequency")
+% xticks()
+% xticklabels(unique(sword))
+
+avg_damage = mean(damage);
+disp("Average damage done to Keene: " + avg_damage)
+
+
+%% Functions
+
+
+% Function to roll a dice and get total score
+function v = roll(num_sides, num_dice, num_trials)
+    v = sum(randi(num_sides, num_dice, num_trials));
+end
+
+% Function to roll a dice using the 'Fun Method'
+function v = fun_method(num_sides, num_dice, num_trials)
+    roll1 = roll(num_sides, num_dice, num_trials);
+    roll2 = roll(num_sides, num_dice, num_trials);
+    roll3 = roll(num_sides, num_dice, num_trials);
+    v = [roll1; roll2; roll3];
+    v = max(v);
+end
+
+##### SOURCE END #####
+--></body></html>

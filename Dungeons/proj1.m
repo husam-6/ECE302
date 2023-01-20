@@ -1,6 +1,12 @@
 %% Husam Almanakly 
 % ECE302 Project 1 - Dungeons and Dragons
 
+
+% This project simulates questions based on the famous board game Dungeons
+% and Dragons. Given a scenario in the game, this script provides both
+% figures and simple estimated probabilities with a large enough number 
+% of trials to assume convergence. 
+
 clear
 clc
 close all
@@ -50,7 +56,6 @@ perfect_occurences = sum(sum(abilities) == (18 * 6));
 estimated_prob = perfect_occurences / n;
 
 disp("Estimated Probability of a perfect character: " + estimated_prob)
-disp("True Probability of a perfect character: " + (prob * 3) ^ 6)
 
 
 %% 1d - Probability of using Fun Method and getting all 9s
@@ -59,10 +64,8 @@ disp("True Probability of a perfect character: " + (prob * 3) ^ 6)
 tmp = sum(abilities == 9) == 6;
 average_occurences = sum(tmp);
 estimated_avg_prob = average_occurences / n; 
-true_avg_prob = 25 / (6 ^ 3);
 
 disp("Estimated Probability of an average character: " + estimated_avg_prob)
-disp("True Probability of an average character: " + (true_avg_prob * 3) ^ 6)
 
 
 
@@ -71,34 +74,45 @@ disp("True Probability of an average character: " + (true_avg_prob * 3) ^ 6)
 % 1d4 => Average hit points = 2.5
 % Fireball - 2d2 => Average damage = 3
 
-% Prob Fireball does > 3 points of damage
+% Generate Trolls, find average hitpoints
+trolls = randi(4, 1, n);
+avg_troll = mean(trolls);
+
+% Average fireball damage
 fireball = roll(2, 2, n);
+fire_ball_avg = mean(fireball);
+
+% Prob Fireball does > 3 points of damage
 bound = sum(fireball > 3);
 prob_bound = bound / n;
+disp("Average number of hit points of a troll: " + avg_troll)
+disp("Average damage of a fireball: " + fire_ball_avg)
 disp("Probability that Fireball does > 3 points of damage: " + prob_bound)
 
 
 %% 2b - pmf for amount of damage fireball does, and amount of hitpoints trolls have
 
 % Troll hitpoints pmf
-trolls = randi(4, 1, n);
 troll_pmf = histcounts(trolls,[unique(trolls) Inf],'Normalization','probability');
 
 % FIREBALL pmf
 pmf = histcounts(fireball,[unique(fireball) Inf],'Normalization','probability');
 figure
-bar(pmf)
+stem(pmf)
 title("pmf of FIREBALL")
 xlabel("Damage points")
 ylabel("Frequency")
+xticks([1 2 3])
 xticklabels([2 3 4])
+xlim([0 4])
 
 % Troll hitpoint pmf
 figure
-bar(troll_pmf)
+stem(troll_pmf)
 title("pmf of Troll Hitpoints")
 xlabel("Hitpoints")
 ylabel("Frequency")
+xlim([0 5])
 
 
 
@@ -129,11 +143,14 @@ remaining_health = transpose(tmp(tmp > 0));
 % Plot histogram of remaining Troll Healths
 health_hist = histcounts(remaining_health,[unique(remaining_health) Inf],'Normalization','probability');
 figure
-bar(health_hist)
+stem(health_hist)
 title("Surviving Troll Health")
 xlabel("Health")
 ylabel("Frequency")
+xlim([0 3])
 
+avg_health = mean(remaining_health);
+disp("Average remaining health: " + avg_health)
 
 
 
@@ -161,11 +178,15 @@ sword(t) = sword(t) + hammer;
 % Plot histogram of damage done
 damage = histcounts(sword,[unique(sword) Inf],'Normalization','probability');
 figure
-bar(damage)
+stem(damage)
 title("Total Damage Done")
 xlabel("Damage")
 ylabel("Frequency")
-xticklabels(unique(sword))
+% xticks()
+% xticklabels(unique(sword))
+
+avg_damage = mean(damage);
+disp("Average damage done to Keene: " + avg_damage)
 
 
 %% Functions
