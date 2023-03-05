@@ -106,6 +106,8 @@ results
 
 % X1 = Y + R1
 % X2 = Y + R2
+% ...
+% XN = Y + RN
 
 var_y = 1;
 var_r = 0.2;
@@ -113,9 +115,7 @@ N = 1000;
 
 figure
 plot_mses(var_y, var_r, N)
-
-figure
-plot_mses(var_y, var_r + 0.1, N)
+plot_mses(var_y+0.5, var_r + 0.1, N)
 
 
 % Function to plot the mses given a variance for Y and R and number of
@@ -137,11 +137,11 @@ function r = plot_mses(var_y, var_r, N)
 
     % plot results
     t = 1:num_experiments;
-    plot(t, mses, 'DisplayName', "Experimental MSE")
+    plot(t, mses, 'DisplayName', "Simulation, var_Y = " + var_y + ", var_R = " + var_r)
     hold on;
-    plot(t, t_mses, 'DisplayName', "Theoretical MSE")
+    plot(t, t_mses, 'DisplayName', "Theoretical, var_Y = " + var_y + ", var_R = " + var_r)
     legend
-    title("Multiple Noisy Observations - var_Y = " + var_y + ", var_R = " + var_r)
+    title("Multiple Noisy Observations")
     xlabel("Number of Observations")
     ylabel("MSE")
 end
