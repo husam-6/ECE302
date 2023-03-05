@@ -6,6 +6,9 @@
 % confirms the theoretical results through simulation, as explained
 % throughout the assignment. 
 
+clc
+clear
+close all
 
 %% Scenario 1 - 
 
@@ -79,13 +82,108 @@ mmse_l = mu_y + p_x_y * std(Y) ./ std(X) .* ( X - mu_x);
 
 % Calculate error 
 % MSE = var(y) * ( 1 - p^2) (from notes)
-mse_l = var(Y) * (1 - p_x_y^2);
+mse_l = mean((Y - mmse_l).^2);
 
 theoretical_mse = 1/4; 
 disp("MSE of Linear MMSE Estimator: " + mse_l)
 disp("MSE using simply mu_y = 0 as our estimator: " + 1/3)
-results = table(avg_mse, mse_l, theoretical_mse)
+
+
+% Set up table for results
+sz = [2 3];
+varTypes = ["string", "double", "double"];
+varNames = ["Method", "Simulated MSE", "Theoretical MSE"];
+results = table('Size',sz,'VariableTypes',varTypes,'VariableNames',varNames);
+results(1, :) = {"MMSE Estimator", avg_mse, 1/4};
+results(2, :) = {"Linear MMSE Estimator", mse_l, 4/15};
+results
+
 
 
 %% Scenario 2 - 
+
+% Linear estimator for multiple observations:
+
+% X1 = Y + R1
+% X2 = Y + R2
+
+var_y = 1;
+var_r = 0.2;
+N = 1000;
+
+figure
+plot_mses(var_y, var_r, N)
+
+figure
+plot_mses(var_y, var_r + 0.1, N)
+
+
+% Function to plot the mses given a variance for Y and R and number of
+% samples
+function r = plot_mses(var_y, var_r, N)
+    num_experiments = 7;
+    mses = zeros(1, num_experiments);
+    t_mses = zeros(1, num_experiments);
+    for i = 1:num_experiments
+        Y = random('Normal', 1, sqrt(var_y), N, 1);
+        Rs = random('Normal', 0, sqrt(var_r), N, i);
+        
+        Xs = Y + Rs;
+        
+        [mse, theoretical_mse] = mult_noisy_mmse(Y, Xs, Rs);
+        mses(i) = mse; 
+        t_mses(i) = theoretical_mse;
+    end
+
+    % plot results
+    t = 1:num_experiments;
+    plot(t, mses, 'DisplayName', "Experimental MSE")
+    hold on;
+    plot(t, t_mses, 'DisplayName', "Theoretical MSE")
+    legend
+    title("Multiple Noisy Observations - var_Y = " + var_y + ", var_R = " + var_r)
+    xlabel("Number of Observations")
+    ylabel("MSE")
+end
+
+
+% Function to calculate mse of a noisy observation
+function [mse, theoretical_mse] = mult_noisy_mmse(Y, Xs, Rs)
+    % Linear estimator (from notes)
+    % Use average varainces of both R's...
+    num_obs = length(Xs(1, :));
+    var_R = mean(var(Rs));
+    
+    % Calculate var(Y) * X1 + var(Y) * X2 + var(Y) * X3 + ... + var(Y) * XN
+    obs = sum(var(Y) * Xs, 2);
+    
+    % Estimator
+    % mu_y = 1;
+    Y_l = 1 ./ (num_obs * var(Y) + var_R) * (var_R * 1 + obs);
+    mse = mean((Y - Y_l).^2);
+
+    % Theoretical MSE (again from notes)
+    theoretical_mse = (var(Y) * var_R) / (num_obs * var(Y) + var_R);
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
