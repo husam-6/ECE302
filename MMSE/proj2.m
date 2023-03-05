@@ -65,5 +65,27 @@ avg_mse = mean(mse);
 disp("Average MSE of MMSE Estimator: " + avg_mse)
 disp("Theoretical MSE of MMSE Estimator from Calculations: 0.25")
 
+%% Linear MMSE 
+
+% We can also simulate the linear MMSE
+% ~y = mu_y + px_y * std(y) / std(x) * ( X - mu_x) 
+
+mu_y = mean(Y);
+mu_x = mean(X);
+p_x_y = corrcoef(X,Y);
+p_x_y = p_x_y(1,2);
+
+mmse_l = mu_y + p_x_y * std(Y) ./ std(X) .* ( X - mu_x);
+
+% Calculate error 
+% MSE = var(y) * ( 1 - p^2) (from notes)
+mse_l = var(Y) * (1 - p_x_y^2);
+
+theoretical_mse = 1/4; 
+disp("MSE of Linear MMSE Estimator: " + mse_l)
+disp("MSE using simply mu_y = 0 as our estimator: " + 1/3)
+results = table(avg_mse, mse_l, theoretical_mse)
+
+
 %% Scenario 2 - 
 
