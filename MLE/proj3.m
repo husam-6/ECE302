@@ -39,7 +39,7 @@ sigma_lab = ["\sigma= " + sigma(1), "\sigma= " + sigma(2), "\sigma= " + sigma(1)
 [ray_3, ray_ml_3] = rayleigh_ml_sim(num_trials, num_obs, sigma(3));
 
 % Putting mse data in matrix
-ray_ml = [ray_1', ray_2', ray_3']; 
+ray_mse = [ray_1', ray_2', ray_3']; 
 
 % Repeat same process for exponential distribution
 % Multiple lambda experiments
@@ -50,9 +50,9 @@ lambs_lab = ["\lambda = " + lambs(1), "\lambda = " + lambs(2), "\lambda = " + la
 [exp_3, exp_ml_3] = exp_ml_sim(num_trials, num_obs, lambs(3));
 
 % Putting mse data in matrix
-exp_ml = [exp_1', exp_2', exp_3'];
+exp_mse = [exp_1', exp_2', exp_3'];
 
-graph(ray_ml, exp_ml, "MSE", sigma_lab, lambs_lab)
+graph(ray_mse, exp_mse, "MSE", sigma_lab, lambs_lab)
 
 %% Estimator Bias
 
@@ -76,12 +76,16 @@ graph(ray_var, exp_var, "Variance", sigma_lab, lambs_lab)
 data = load("data.mat").data;
 
 % Compute ML for Rayleigh and Exponential Distribution
-data_ray_ml = sqrt(1./(2*size(data, 2)) .* sum(data.^2));
-data_exp_ml = size(data,2) ./ sum(data);
+data_ray_theta = sqrt(1./(2*size(data, 2)) .* sum(data.^2));
+data_exp_theta = size(data,2) ./ sum(data);
 
-disp("Rayleigh Max Likelihood of given data: " + data_ray_ml);
-disp("Exponential Max Likelihood of given data: " + data_exp_ml);
-disp("Exponential Max Likelihood value > Rayleigh Max Likelihood =>")
+% Throw into max likelihood function
+ray_ml = sum(log(raylpdf(data, data_ray_theta)));
+exp_ml = sum(log(exppdf(data, data_exp_theta)));
+
+disp("Rayleigh Max Likelihood of given data: " + ray_ml);
+disp("Exponential Max Likelihood of given data: " + exp_ml);
+disp("Rayleigh Max Likelihood value > Exponential Max Likelihood =>")
 disp("We can assume the data is Exponential")
 
 
