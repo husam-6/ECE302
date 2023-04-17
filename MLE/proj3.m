@@ -76,16 +76,16 @@ graph(ray_var, exp_var, "Variance", sigma_lab, lambs_lab)
 data = load("data.mat").data;
 
 % Compute ML for Rayleigh and Exponential Distribution
-data_ray_theta = sqrt(1./(2*size(data, 2)) .* sum(data.^2));
-data_exp_theta = size(data,2) ./ sum(data);
+ray_ml = sqrt(1./(2*size(data, 2)) .* sum(data.^2));
+exp_ml = size(data,2) ./ sum(data);
 
-% Throw into max likelihood function
-ray_ml = sum(log(raylpdf(data, data_ray_theta)));
-exp_ml = sum(log(exppdf(data, data_exp_theta)));
+% Throw into likelihood function
+likelihood_ray = sum(log(raylpdf(data, ray_ml)));
+likelihood_exp= sum(log(exppdf(data, 1/exp_ml)));
 
-disp("Rayleigh Max Likelihood of given data: " + ray_ml);
-disp("Exponential Max Likelihood of given data: " + exp_ml);
-disp("Rayleigh Max Likelihood value > Exponential Max Likelihood =>")
+disp("Rayleigh Likelihood of given data: " + likelihood_ray);
+disp("Exponential Likelihood of given data: " + likelihood_exp);
+disp("Rayleigh Likelihood value > Exponential Likelihood =>")
 disp("We can assume the data is Exponential")
 
 
