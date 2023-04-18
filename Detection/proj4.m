@@ -7,6 +7,14 @@
 % Simulations are conducted to explore different SNR cases and plot what
 % the simulated ROC curve results in
 
+% Number 2 combines the content from last topic (max likelihood estimation)
+% with detection theory and Machine Learning. Using the Iris Classification
+% dataset, the 'training' phase of our system consists of learning the
+% mean vector and covariance matrix of the multivariate gaussian
+% probability distribution for each subclass of Iris'. This can then be
+% used to evaluate the multivaraite gaussian pdf of each class for every 
+% sample. Our estimation is thus the class associated with the maximum probaility
+
 clc
 clear
 close all
